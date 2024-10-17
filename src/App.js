@@ -4,20 +4,10 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <img src="https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/noxinh.svg?alt=media&token=33149384-92f0-41a0-85e2-8197f7db6047" className="helloBg" alt="logo" />
+
+      </div>
     </div>
   );
 }
