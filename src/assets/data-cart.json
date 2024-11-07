@@ -1,0 +1,52 @@
+{
+  "cart": [
+    {
+      "id": 1,
+      "name": "Nơ Hồng",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+      "price": 200000,
+      "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837810440_2b0af403e3104a9ecc6aedada76d77be.jpg?alt=media&token=3fc44a82-ad17-4f88-b10e-0d5471a85c23",
+      "quantity": 1
+    },
+    {
+      "id": 2,
+      "name": "Nơ Xanh Lục",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+      "price": 200000,
+      "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837211954_2923cb9ad02444fbe0e65c7ec13699a6.jpg?alt=media&token=b1fbba2f-9ae7-4f32-b0d3-356190411847",
+      "quantity": 1
+    },
+    {
+      "id": 4,
+      "name": "Nơ Xanh Lục",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+      "price": 200000,
+      "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837211954_2923cb9ad02444fbe0e65c7ec13699a6.jpg?alt=media&token=b1fbba2f-9ae7-4f32-b0d3-356190411847",
+      "quantity": 1
+    },
+    {
+      "id": 3,
+      "name": "Nơ Vàng",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+      "price": 200000,
+      "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962836994135_61e882d26233a837f25e7be5e38281d4.jpg?alt=media&token=1f49aa11-fc09-471c-91c2-1bb09fcc2f76",
+      "quantity": 1
+    },
+    {
+      "id": 4,
+      "name": "Nơ Tím",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+      "price": 200000,
+      "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837866398_29b861504e93417e9f782b39c4863785.jpg?alt=media&token=a0b4c07a-a9dc-4c3b-9705-4d69e13e1868",
+      "quantity": 1
+    },
+    {
+      "id": 2,
+      "name": "Nơ Đen",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+      "price": 200000,
+      "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837717793_0c3f02e84b555628a2bb79db59ea8c2b.jpg?alt=media&token=ff5769ef-9726-42e7-a5c3-ba5198281d64",
+      "quantity": 1
+    }
+  ]
+}

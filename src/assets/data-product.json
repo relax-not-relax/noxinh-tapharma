@@ -1,0 +1,226 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "categoryId": "1",
+      "categoryName": "Aurora",
+      "categoryColor": "màu hồng",
+      "categoryImage": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/aurora.png?alt=media&token=f4f82d4c-c912-46e4-a2a4-50e5245a46a0",
+      "product": [
+        {
+          "id": 1,
+          "name": "Nơ Hồng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837810440_2b0af403e3104a9ecc6aedada76d77be.jpg?alt=media&token=3fc44a82-ad17-4f88-b10e-0d5471a85c23"
+        },
+        {
+          "id": 2,
+          "name": "Nơ Hồng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837810440_2b0af403e3104a9ecc6aedada76d77be.jpg?alt=media&token=3fc44a82-ad17-4f88-b10e-0d5471a85c23"
+        },
+        {
+          "id": 3,
+          "name": "Nơ Hồng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837810440_2b0af403e3104a9ecc6aedada76d77be.jpg?alt=media&token=3fc44a82-ad17-4f88-b10e-0d5471a85c23"
+        },
+        {
+          "id": 4,
+          "name": "Nơ Hồng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837810440_2b0af403e3104a9ecc6aedada76d77be.jpg?alt=media&token=3fc44a82-ad17-4f88-b10e-0d5471a85c23"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "categoryId": "2",
+      "categoryName": "Ivy",
+      "categoryColor": "màu xanh lá",
+      "categoryImage": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/ivy.png?alt=media&token=204cf635-8a2d-45f8-a491-c0e0c490b2c5",
+      "product": [
+        {
+          "id": 1,
+          "name": "Nơ Xanh Lục",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837211954_2923cb9ad02444fbe0e65c7ec13699a6.jpg?alt=media&token=b1fbba2f-9ae7-4f32-b0d3-356190411847"
+        },
+        {
+          "id": 2,
+          "name": "Nơ Xanh Lục",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837211954_2923cb9ad02444fbe0e65c7ec13699a6.jpg?alt=media&token=b1fbba2f-9ae7-4f32-b0d3-356190411847"
+        },
+        {
+          "id": 3,
+          "name": "Nơ Xanh Lục",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837211954_2923cb9ad02444fbe0e65c7ec13699a6.jpg?alt=media&token=b1fbba2f-9ae7-4f32-b0d3-356190411847"
+        },
+        {
+          "id": 4,
+          "name": "Nơ Xanh Lục",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837211954_2923cb9ad02444fbe0e65c7ec13699a6.jpg?alt=media&token=b1fbba2f-9ae7-4f32-b0d3-356190411847"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "categoryId": "3",
+      "categoryName": "Goldie",
+      "categoryColor": "màu vàng",
+      "categoryImage": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/goldie.png?alt=media&token=f420eb24-aa7a-449d-81d8-71fb2ea84539",
+      "product": [
+        {
+          "id": 1,
+          "name": "Nơ Vàng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962836994135_61e882d26233a837f25e7be5e38281d4.jpg?alt=media&token=1f49aa11-fc09-471c-91c2-1bb09fcc2f76"
+        },
+        {
+          "id": 2,
+          "name": "Nơ Vàng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962836994135_61e882d26233a837f25e7be5e38281d4.jpg?alt=media&token=1f49aa11-fc09-471c-91c2-1bb09fcc2f76"
+        },
+        {
+          "id": 3,
+          "name": "Nơ Vàng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962836994135_61e882d26233a837f25e7be5e38281d4.jpg?alt=media&token=1f49aa11-fc09-471c-91c2-1bb09fcc2f76"
+        },
+        {
+          "id": 4,
+          "name": "Nơ Vàng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962836994135_61e882d26233a837f25e7be5e38281d4.jpg?alt=media&token=1f49aa11-fc09-471c-91c2-1bb09fcc2f76"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "categoryId": "4",
+      "categoryName": "Lilith",
+      "categoryColor": "màu tím",
+      "categoryImage": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/lilith.png?alt=media&token=d128b3c1-94ba-4d40-8287-cea189c9acc0",
+      "product": [
+        {
+          "id": 1,
+          "name": "Nơ Tím",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837866398_29b861504e93417e9f782b39c4863785.jpg?alt=media&token=a0b4c07a-a9dc-4c3b-9705-4d69e13e1868"
+        },
+        {
+          "id": 2,
+          "name": "Nơ Tím",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837866398_29b861504e93417e9f782b39c4863785.jpg?alt=media&token=a0b4c07a-a9dc-4c3b-9705-4d69e13e1868"
+        },
+        {
+          "id": 3,
+          "name": "Nơ Tím",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837866398_29b861504e93417e9f782b39c4863785.jpg?alt=media&token=a0b4c07a-a9dc-4c3b-9705-4d69e13e1868"
+        },
+        {
+          "id": 4,
+          "name": "Nơ Tím",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837866398_29b861504e93417e9f782b39c4863785.jpg?alt=media&token=a0b4c07a-a9dc-4c3b-9705-4d69e13e1868"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "categoryId": "5",
+      "categoryName": "Raven",
+      "categoryColor": "màu đen",
+      "categoryImage": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/raven.png?alt=media&token=e2d7c381-9779-41f0-a267-e2b30c763667",
+      "product": [
+        {
+          "id": 1,
+          "name": "Nơ Đen",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837717793_0c3f02e84b555628a2bb79db59ea8c2b.jpg?alt=media&token=ff5769ef-9726-42e7-a5c3-ba5198281d64"
+        },
+        {
+          "id": 2,
+          "name": "Nơ Đen",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837717793_0c3f02e84b555628a2bb79db59ea8c2b.jpg?alt=media&token=ff5769ef-9726-42e7-a5c3-ba5198281d64"
+        },
+        {
+          "id": 3,
+          "name": "Nơ Đen",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837717793_0c3f02e84b555628a2bb79db59ea8c2b.jpg?alt=media&token=ff5769ef-9726-42e7-a5c3-ba5198281d64"
+        },
+        {
+          "id": 4,
+          "name": "Nơ Đen",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837717793_0c3f02e84b555628a2bb79db59ea8c2b.jpg?alt=media&token=ff5769ef-9726-42e7-a5c3-ba5198281d64"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "categoryId": "6",
+      "categoryName": "Luna",
+      "categoryColor": "màu trắng",
+      "categoryImage": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/luna.png?alt=media&token=d2e22e8b-1bd2-4474-950e-3e375a7af5db",
+      "product": [
+        {
+          "id": 1,
+          "name": "Nơ Trắng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837883865_051f99ace0f152553522023a3512a8ed.jpg?alt=media&token=dae3eb24-522b-426c-8fb9-e61cd7c28c11"
+        },
+        {
+          "id": 2,
+          "name": "Nơ Trắng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837883865_051f99ace0f152553522023a3512a8ed.jpg?alt=media&token=dae3eb24-522b-426c-8fb9-e61cd7c28c11"
+        },
+        {
+          "id": 3,
+          "name": "Nơ Trắng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837883865_051f99ace0f152553522023a3512a8ed.jpg?alt=media&token=dae3eb24-522b-426c-8fb9-e61cd7c28c11"
+        },
+        {
+          "id": 4,
+          "name": "Nơ Trắng",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+          "price": 200000,
+          "image": "https://firebasestorage.googleapis.com/v0/b/image-ba3c9.appspot.com/o/z5962837883865_051f99ace0f152553522023a3512a8ed.jpg?alt=media&token=dae3eb24-522b-426c-8fb9-e61cd7c28c11"
+        }
+      ]
+    }
+  ]
+}
