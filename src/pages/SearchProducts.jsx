@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
 import bst from "../assets/bst-2.svg";
+import PropTypes from "prop-types";
+import { Link, useSearchParams } from "react-router-dom";
+import deserialize from "../util/deserialize";
 import combosAPI from "../api/combosApi";
 import {
   Button,
@@ -10,34 +12,25 @@ import {
   CardFooter,
   CardHeader,
   IconButton,
-  Input,
   Option,
   Select,
   Typography,
 } from "@material-tailwind/react";
-import ComboProductCard from "../components/combo/ComboProductCard";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
-import FilterDrawer from "../components/combo/FilterDrawer";
-import deserialize from "../util/deserialize";
+import ComboProductCard from "../components/combo/ComboProductCard";
 
-function Products() {
-  const [comboData, setComboData] = React.useState({});
-  const [products, setProducts] = React.useState([]);
-  const { id } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+SearchProducts.propTypes = {};
+
+function SearchProducts(props) {
   const [categories, setCategories] = React.useState([]);
+  const [products, setProducts] = React.useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = React.useState(true);
   const [active, setActive] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
-  const [openLeft, setOpenLeft] = React.useState(false);
-  const [search, setSearch] = React.useState("");
   const [sort, setSort] = React.useState("");
-  const [min, setMin] = React.useState(0);
-  const [max, setMax] = React.useState(0);
-
-  const onChange = ({ target }) => setSearch(target.value);
-  const onChangeMin = ({ target }) => setMin(Math.round(target.value * 10000));
-  const onChangeMax = ({ target }) => setMax(Math.round(target.value * 10000));
+  const [searchName, setSearchName] = React.useState("");
+  const [totalProducts, setTotalProducts] = React.useState(0);
 
   const next = () => {
     if (active === totalPages) return;
@@ -57,62 +50,40 @@ function Products() {
     setSearchParams(searchParams);
   };
 
-  const onSearch = () => {
-    console.log("Search: ", search);
-    searchParams.set("search", search);
-    setSearchParams(searchParams);
-  };
-
-  const openDrawerLeft = () => {
-    setOpenLeft(true);
-  };
-  const closeDrawerLeft = () => setOpenLeft(false);
-
   React.useEffect(() => {
     setIsLoading(true);
-    const findSearchString = searchParams.get("search") || "";
-    const searchString = deserialize(findSearchString) || "";
-    setSearch(searchString);
     const findSortString = searchParams.get("sort") || "id,desc";
     const sortString = deserialize(findSortString) || "id,desc";
     setSort(sortString);
-    const findMinString = searchParams.get("minPrice") || 0;
-    const findMaxString = searchParams.get("maxPrice") || 0;
-    const findMin = deserialize(findMinString) || 0;
-    const findMax = deserialize(findMaxString) || 0;
-    setMin(findMin);
-    setMax(findMax);
-    const fetchComboData = async () => {
+    const fetchData = async () => {
       const pageSize = searchParams.get("pageSize") || 8;
       const pageNumber = searchParams.get("pageNumber") || 0;
       const sort = searchParams.get("sort") || "id,desc";
-      const search = searchParams.get("search") || null;
-      const minPrice = searchParams.get("minPrice") || null;
-      const maxPrice = searchParams.get("maxPrice") || null;
+      const search = searchParams.get("productName") || null;
 
       try {
-        const res = await combosAPI.getComboById({
-          id,
+        const res = await combosAPI.getProductsBySearch({
+          search,
+          sort,
           pageNumber,
           pageSize,
-          sort,
-          minPrice,
-          maxPrice,
-          search,
         });
-        setComboData(res.data);
-        setProducts(res.data.productPages.content);
-        const number = res.data.productPages.pageable.pageNumber + 1;
+        console.log(res.data.content);
+        setProducts(res.data.content);
+        const number = res.data.pageable.pageNumber + 1;
+        const searchString = deserialize(search);
+        setSearchName(searchString);
         setActive(number);
-        setTotalPages(res.data.productPages.totalPages);
+        setTotalPages(res.data.totalPages);
+        setTotalProducts(res.data.totalElements);
         setIsLoading(false);
       } catch (error) {
-        console.error("Failed to fetch combo data:", error);
+        console.log("Failed to get products by search: ", error);
       }
     };
 
-    fetchComboData();
-  }, [id, searchParams]);
+    fetchData();
+  }, [searchParams]);
 
   React.useEffect(() => {
     const fetchCategories = () => {
@@ -122,7 +93,6 @@ function Products() {
 
     fetchCategories();
   }, []);
-
   return (
     <div className="w-screen h-auto">
       <div className="flex justify-center px-24">
@@ -145,15 +115,9 @@ function Products() {
                   alt=""
                   className="h-auto xl:w-[150px] lg:w-[135px] sm:w-[100px] w-[60px]"
                 />
-                {category.id === comboData.id ? (
-                  <p className="sm:text-xl text-base font-bold text-[#FF4EB8]">
-                    {category.name}
-                  </p>
-                ) : (
-                  <p className="sm:text-xl text-base font-light text-black">
-                    {category.name}
-                  </p>
-                )}
+                <p className="sm:text-xl text-base font-light text-black">
+                  {category.name}
+                </p>
               </div>
             </Link>
           );
@@ -161,81 +125,24 @@ function Products() {
       </div>
       <hr className="my-12" />
       <div className="xl:px-32 md:px-12 sm:px-8 px-6">
-        <div className="w-full flex lg:flex-row flex-col lg:justify-between lg:items-center justify-start">
-          <React.Fragment>
-            <div className="flex md:flex-row flex-col lg:justify-start justify-start lg:items-center gap-2 gap-y-4">
-              <Button
-                onClick={openDrawerLeft}
-                variant="outlined"
-                className="flex lg:justify-start justify-between items-center xl:gap-3 gap-2 xl:text-xs md:text-[10px] font-bold xl:py-3 xl:px-6 md:py-2 lg:px-3 md:px-2"
-              >
-                Bộ lọc
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="xl:size-6 size-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-                  />
-                </svg>
-              </Button>
-              <div className="relative flex xl:w-[20rem] lg:w-[15rem]">
-                <Input
-                  label="Tìm kiếm sản phẩm"
-                  value={search ?? ""}
-                  onChange={onChange}
-                  className="pr-20"
-                  containerProps={{
-                    className: "min-w-0",
-                  }}
-                />
-                <IconButton
-                  size="sm"
-                  disabled={!search}
-                  className="!absolute right-1 top-1 bg-[#FFA7DC]"
-                  onClick={onSearch}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="lg:size-4 sm:size-4 size-3"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                    />
-                  </svg>
-                </IconButton>
-              </div>
-              <div className="xl:w-72 lg:w-56">
-                <Select
-                  label="Sắp xếp theo"
-                  onChange={(e) => {
-                    setSort(e);
-                    searchParams.set("sort", e);
-                    setSearchParams(searchParams);
-                  }}
-                  value={sort}
-                >
-                  <Option value="id,desc">Mới nhất</Option>
-                  <Option value="id,asc">Cũ nhất</Option>
-                  <Option value="price,asc">Giá thấp nhất</Option>
-                  <Option value="price,desc">Giá cao nhất</Option>
-                </Select>
-              </div>
-            </div>
-          </React.Fragment>
-          <div className="flex items-center gap-8 lg:mt-0 mt-4">
+        <div className="flex md:flex-row flex-col md:justify-between md:items-center justify-start gap-y-4">
+          <div className="md:w-72 w-full">
+            <Select
+              label="Sắp xếp theo"
+              onChange={(e) => {
+                setSort(e);
+                searchParams.set("sort", e);
+                setSearchParams(searchParams);
+              }}
+              value={sort}
+            >
+              <Option value="id,desc">Mới nhất</Option>
+              <Option value="id,asc">Cũ nhất</Option>
+              <Option value="price,asc">Giá thấp nhất</Option>
+              <Option value="price,desc">Giá cao nhất</Option>
+            </Select>
+          </div>
+          <div className="flex items-center gap-8">
             <IconButton
               size="sm"
               variant="outlined"
@@ -257,15 +164,13 @@ function Products() {
               <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
             </IconButton>
           </div>
-          <FilterDrawer
-            onClose={closeDrawerLeft}
-            isOpen={openLeft}
-            min={min}
-            max={max}
-            onChangeMin={onChangeMin}
-            onChangeMax={onChangeMax}
-          />
         </div>
+        <h4 className="md:text-3xl text-xl font-light my-8">
+          {totalProducts} kết quả tìm kiếm cho{" "}
+          <span className="font-semibold text-pink-500">
+            &ldquo;{searchName}&rdquo;
+          </span>
+        </h4>
 
         {isLoading ? (
           <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6">
@@ -354,11 +259,4 @@ function Products() {
   );
 }
 
-export default Products;
-
-{
-  /* <Link key={combo.categoryId} to={combo.id.toString()}>
-            <h4>{combo.name}</h4>
-            <p>{combo.description}</p>
-          </Link> */
-}
+export default SearchProducts;

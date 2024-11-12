@@ -4,18 +4,19 @@ import PropTypes from "prop-types";
 import { IconButton, Input, Typography } from "@material-tailwind/react";
 import formatPrice from "../../util/formatPrice";
 import cartAPI from "../../api/cartApi";
+import { changeAmount } from "../../util/handleCart";
+import { CartContext } from "../../provider/CartContext";
 
 CartProduct.propTypes = {
   item: PropTypes.object.isRequired,
   onDelete: PropTypes.func.isRequired,
+  isDeleting: PropTypes.bool.isRequired,
 };
 
-function CartProduct({ item, onDelete }) {
-  const [value, setValue] = React.useState(1);
-
-  React.useEffect(() => {
-    setValue(item.quantity);
-  }, [item.quantity]);
+function CartProduct({ item, onDelete, isDeleting }) {
+  const [value, setValue] = React.useState(item.amount);
+  const [isDisable, setIsDisable] = React.useState(false);
+  const { amount, updateCartAmount } = React.useContext(CartContext);
 
   return (
     <div className="w-full flex justify-between items-start mt-6">
@@ -31,8 +32,25 @@ function CartProduct({ item, onDelete }) {
                 <Input
                   type="number"
                   value={value}
-                  onChange={(e) => setValue(Number(e.target.value))}
-                  className="xl:w-[120px] sm:w-[100px] w-[100px] !border-t-blue-gray-200 placeholder:text-blue-gray-300 placeholder:opacity-100 focus:!border-t-gray-900 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  onChange={(e) => {
+                    const newValue =
+                      e.target.value === "" ? "" : Number(e.target.value);
+                    setValue(newValue);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      changeAmount(item, value, setIsDisable);
+                      e.target.blur();
+                    }
+                  }}
+                  onBlur={() => {
+                    if (value === "" || Number(value) === 0) {
+                      setValue(1);
+                    }
+                    changeAmount(item, value, setIsDisable);
+                  }}
+                  className="xl:w-[120px] sm:w-[100px] w-[120px] !border-t-blue-gray-200 placeholder:text-blue-gray-300 placeholder:opacity-100 focus:!border-t-gray-900 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   labelProps={{
                     className: "before:content-none after:content-none",
                   }}
@@ -45,7 +63,15 @@ function CartProduct({ item, onDelete }) {
                     size="sm"
                     variant="text"
                     className="rounded"
-                    onClick={() => setValue((cur) => (cur === 0 ? 0 : cur - 1))}
+                    disabled={isDisable}
+                    onClick={() => {
+                      setValue((cur) => (cur === 1 ? 1 : cur - 1));
+                      changeAmount(
+                        item,
+                        value === 1 ? 1 : value - 1,
+                        setIsDisable
+                      );
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +86,11 @@ function CartProduct({ item, onDelete }) {
                     size="sm"
                     variant="text"
                     className="rounded"
-                    onClick={() => setValue((cur) => cur + 1)}
+                    disabled={isDisable}
+                    onClick={() => {
+                      setValue((cur) => cur + 1);
+                      changeAmount(item, value + 1, setIsDisable);
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +103,16 @@ function CartProduct({ item, onDelete }) {
                   </IconButton>
                 </div>
               </div>
-              <IconButton variant="text" className="rounded-full">
+              <IconButton
+                variant="text"
+                className="rounded-full"
+                disabled={isDeleting}
+                onClick={() => {
+                  onDelete();
+                  const newAmount = amount - 1;
+                  updateCartAmount(newAmount);
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

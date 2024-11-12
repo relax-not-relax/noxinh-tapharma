@@ -17,5 +17,5 @@ export const saveCategoryToSession = (data) => {
         name: item.name,
         image: item.image,
     }));
-    sessionStorage.setItem("categories", JSON.stringify(simplifiedData));
+    sessionStorage.setItem("categoriesNoxinh", JSON.stringify(simplifiedData));
 }

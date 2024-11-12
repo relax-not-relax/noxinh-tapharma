@@ -15,6 +15,12 @@ import ContactInfo from "./components/ContactInfo";
 import ContactForm from "./components/ContactForm";
 import NotFound from "./components/NotFound";
 import { categoryLoader } from "./data/category-loader";
+import SearchProducts from "./pages/SearchProducts";
+import Order from "./pages/Order";
+import PrivateRoute from "./pages/PrivateRoute";
+import { fetchCart } from "./data/cart-loader";
+import OrderHistory from "./pages/OrderHistory";
+import PrivateRouteHistory from "./pages/PrivateRouteHistory";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -23,15 +29,26 @@ const App = () => {
         <Route index element={<Home />} loader={categoryLoader} />
 
         <Route path="combo/:id" element={<Products />} />
-        {/* <Route path="products" element={<ProductsLayout />}>
-          <Route index element={<Products />} loader={productsLoader} />
-          <Route
-            path=":id"
-            element={<ProductsDetails />}
-            loader={productDetailsLoader}
-            errorElement={<Error />}
-          />
-        </Route> */}
+        <Route path="product/search" element={<SearchProducts />} />
+
+        <Route
+          path="order"
+          element={
+            <PrivateRoute>
+              <Order />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="historyOrder"
+          element={
+            <PrivateRouteHistory>
+              <OrderHistory />
+            </PrivateRouteHistory>
+          }
+        />
+
         <Route path="about" element={<About />} />
         <Route path="contact" element={<ContactLayout />}>
           <Route path="info" element={<ContactInfo />} />

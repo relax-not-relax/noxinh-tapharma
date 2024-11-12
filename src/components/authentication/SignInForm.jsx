@@ -15,6 +15,8 @@ import {
 import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 import authenticationAPI from "../../api/authenticationApi";
+import cartAPI from "../../api/cartApi";
+import { CartContext } from "../../provider/CartContext";
 
 SignInForm.propTypes = {
   isOpen: PropTypes.bool.isRequired,
@@ -27,6 +29,7 @@ function SignInForm({ isOpen, onClose, onSwitchToSignUp }) {
   const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = React.useState(false);
   const [errorResponse, setErrorResponse] = React.useState("");
+  const { amount, updateCartAmount } = React.useContext(CartContext);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -53,9 +56,11 @@ function SignInForm({ isOpen, onClose, onSwitchToSignUp }) {
       setIsSubmit(true);
       const res = await authenticationAPI.login(request);
       if (res.status === 200) {
-        sessionStorage.setItem("accessToken", res.data.accessToken);
-        sessionStorage.setItem("refreshToken", res.data.refreshToken);
-        sessionStorage.setItem("isLogin", true);
+        sessionStorage.setItem("accessTokenNoxinh", res.data.accessToken);
+        sessionStorage.setItem("refreshTokenNoxinh", res.data.refreshToken);
+        sessionStorage.setItem("isLoginNoxinh", true);
+        const resCart = await cartAPI.getAll();
+        updateCartAmount(resCart.data.page.totalElements);
 
         setIsSubmit(false);
         console.log("Successfully login");

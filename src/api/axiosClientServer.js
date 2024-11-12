@@ -11,8 +11,8 @@ const axiosClientServer = axios.create({
 // Interceptor cho request
 axiosClientServer.interceptors.request.use(
     (config) => {
-        const altToken = sessionStorage.getItem("refreshToken");
-        const token = sessionStorage.getItem('accessToken');
+        const altToken = sessionStorage.getItem("refreshTokenNoxinh");
+        const token = sessionStorage.getItem('accessTokenNoxinh');
 
         if (config.useAltToken && altToken) {
             config.headers.Authorization = `Bearer ${altToken}`;

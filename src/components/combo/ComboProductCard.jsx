@@ -4,9 +4,8 @@ import PropTypes from "prop-types";
 import formatPrice from "../../util/formatPrice";
 import { Button, Card, Typography } from "@material-tailwind/react";
 import ProductDetails from "./ProductDetails";
-import cartAPI from "../../api/cartApi";
 import { useSnackbar } from "notistack";
-import { fetchCart } from "../../data/cart-loader";
+import { useAddToCart } from "../../util/useAddToCart";
 
 ComboProductCard.propTypes = {
   product: PropTypes.object.isRequired,
@@ -16,42 +15,13 @@ function ComboProductCard({ product }) {
   const [isImageLoaded, setIsImageLoaded] = React.useState(false);
   const [isProductDialogOpen, setIsProductDialogOpen] = React.useState(false);
   const [isAdding, setIsAdding] = React.useState(false);
-  const { enqueueSnackbar } = useSnackbar();
+  const { handleAddToCart } = useAddToCart();
 
   const openProductDialog = () => setIsProductDialogOpen(true);
   const closeProductDialog = () => setIsProductDialogOpen(false);
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);
-  };
-
-  const handleAddToCart = async (amount) => {
-    setIsAdding(true);
-    try {
-      await cartAPI.add({ id: `${product.id}`, amount: amount });
-      setIsAdding(false);
-      enqueueSnackbar("Đã thêm sản phẩm vào giỏ hàng!", {
-        variant: "success",
-        autoHideDuration: 2500,
-        anchorOrigin: { vertical: "top", horizontal: "right" },
-      });
-    } catch (error) {
-      console.log("Failed to add product: ", error);
-      setIsAdding(false);
-      if (error.status === 403) {
-        enqueueSnackbar("Vui lòng đăng nhập để thêm giỏ hàng", {
-          variant: "error",
-          autoHideDuration: 2500,
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
-      } else {
-        enqueueSnackbar("Vui lòng thử lại!", {
-          variant: "error",
-          autoHideDuration: 2500,
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
-      }
-    }
   };
 
   return (
@@ -85,7 +55,7 @@ function ComboProductCard({ product }) {
         className="w-full bg-[#FFA7DC]"
         loading={isAdding}
         onClick={() => {
-          handleAddToCart(1);
+          handleAddToCart(product, 1, setIsAdding);
         }}
       >
         <Typography className="xl:text-sm text-[10px] font-bold">
@@ -97,7 +67,6 @@ function ComboProductCard({ product }) {
         product={product}
         isOpen={isProductDialogOpen}
         onClose={closeProductDialog}
-        onAddToCart={handleAddToCart}
       />
     </div>
   );

@@ -33,7 +33,7 @@ function CategoryProducts({ products }) {
               </h4>
               <Button
                 variant="outlined"
-                className="xl:mt-3 xl:mb-0 mb-8"
+                className="lg:mt-3 xl:mb-0 mb-8 lg:text-[10px] xl:text-sm xl:font-semibold"
                 onClick={() => {
                   navigate(
                     `/combo/${category.id}?pageNumber=0&pageSize=8&sort=id,desc`

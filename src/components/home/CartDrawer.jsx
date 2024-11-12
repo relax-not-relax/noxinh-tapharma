@@ -11,6 +11,7 @@ import {
 import cartAPI from "../../api/cartApi";
 import CartProduct from "./CartProduct";
 import formatPrice from "../../util/formatPrice";
+import { useNavigate } from "react-router-dom";
 
 CartDrawer.propTypes = {
   openRight: PropTypes.bool.isRequired,
@@ -21,21 +22,26 @@ CartDrawer.propTypes = {
 };
 
 function CartDrawer({ openRight, closeDrawerRight, cart, loading, setCart }) {
+  const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = React.useState(0);
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   React.useEffect(() => {
     const total = cart.reduce((sum, product) => {
-      return sum + product.price * product.quantity;
+      return sum + product.price * product.amount;
     }, 0);
 
     setTotalPrice(total);
   }, [cart]);
 
   const handleDeleteItem = async (id) => {
-    const updatedCart = cart.filter((item) => item.id !== id);
-    setCart(updatedCart);
+    setIsDeleting(true);
+
     try {
       await cartAPI.delete({ id: id });
+      const updatedCart = cart.filter((item) => item.id !== id);
+      setCart(updatedCart);
+      setIsDeleting(false);
     } catch (error) {
       console.log("Faild to delete item:", error);
     }
@@ -105,7 +111,14 @@ function CartDrawer({ openRight, closeDrawerRight, cart, loading, setCart }) {
           ) : (
             <div className="overflow-y-auto grow hide-scrollbar">
               {cart.map((product, index) => (
-                <CartProduct key={index} item={product} />
+                <CartProduct
+                  key={index}
+                  item={product}
+                  onDelete={() => {
+                    handleDeleteItem(product.id);
+                  }}
+                  isDeleting={isDeleting}
+                />
               ))}
             </div>
           )}
@@ -129,7 +142,15 @@ function CartDrawer({ openRight, closeDrawerRight, cart, loading, setCart }) {
             <Typography className="mt-4 mb-3 text-xs text-[#505050] italic">
               Phí vận chuyển sẽ được tính tại trang thanh toán
             </Typography>
-            <Button className="w-full h-16 bg-[#FFA7DC]">Thanh toán</Button>
+            <Button
+              className="w-full h-16 bg-[#FFA7DC]"
+              onClick={() => {
+                closeDrawerRight();
+                navigate("/order", { state: { cart, fromCartDrawer: true } });
+              }}
+            >
+              Thanh toán
+            </Button>
           </div>
         </div>
       </Drawer>

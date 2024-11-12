@@ -6,6 +6,7 @@ import { Button, Card, Typography } from "@material-tailwind/react";
 import cartAPI from "../../api/cartApi";
 import { useSnackbar } from "notistack";
 import ProductDetails from "../combo/ProductDetails";
+import { CartContext } from "../../provider/CartContext";
 
 ProductCard.propTypes = {
   product: PropTypes.object.isRequired,
@@ -16,6 +17,7 @@ function ProductCard({ product }) {
   const [isProductDialogOpen, setIsProductDialogOpen] = React.useState(false);
   const [isAdding, setIsAdding] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const { amount, updateCartAmount } = React.useContext(CartContext);
 
   const openProductDialog = () => setIsProductDialogOpen(true);
   const closeProductDialog = () => setIsProductDialogOpen(false);
@@ -24,26 +26,66 @@ function ProductCard({ product }) {
     setIsImageLoaded(true);
   };
 
-  const handleAddToCart = async (amount) => {
+  const handleAddToCart = async (amountP) => {
     setIsAdding(true);
     try {
-      await cartAPI.add({ id: `${product.id}`, amount: amount });
+      await cartAPI.add({ id: `${product.id}`, amount: amountP });
       setIsAdding(false);
       enqueueSnackbar("Đã thêm sản phẩm vào giỏ hàng!", {
         variant: "success",
         autoHideDuration: 2500,
         anchorOrigin: { vertical: "top", horizontal: "right" },
       });
+      const newAmount = amount + 1;
+      updateCartAmount(newAmount);
     } catch (error) {
       console.log("Failed to add product: ", error);
-      setIsAdding(false);
+
       if (error.status === 403) {
+        setIsAdding(false);
         enqueueSnackbar("Vui lòng đăng nhập để thêm giỏ hàng", {
           variant: "error",
           autoHideDuration: 2500,
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
+      } else if (error.status === 500) {
+        console.log("Failed to add product: ", error);
+        try {
+          const resP = await cartAPI.getById({ id: `${product.id}` });
+          const amountRequest = amountP + resP.data.product.amount;
+          console.log(amountRequest);
+          const data = {
+            productId: `${product.id}`,
+            amount: amountRequest,
+          };
+          try {
+            await cartAPI.update(data);
+            setIsAdding(false);
+            enqueueSnackbar("Đã thêm sản phẩm vào giỏ hàng!", {
+              variant: "success",
+              autoHideDuration: 2500,
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          } catch (errorN) {
+            console.log("Failed to add product: ", errorN);
+            setIsAdding(false);
+            enqueueSnackbar("Vui lòng thử lại!", {
+              variant: "error",
+              autoHideDuration: 2500,
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          }
+        } catch (errorP) {
+          console.log("Failed to add product: ", errorP);
+          setIsAdding(false);
+          enqueueSnackbar("Vui lòng thử lại!", {
+            variant: "error",
+            autoHideDuration: 2500,
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        }
       } else {
+        setIsAdding(false);
         enqueueSnackbar("Vui lòng thử lại!", {
           variant: "error",
           autoHideDuration: 2500,
@@ -59,7 +101,7 @@ function ProductCard({ product }) {
         onClick={openProductDialog}
       >
         {!isImageLoaded && (
-          <div className="w-full h-48 bg-gray-300 animate-pulse rounded-md mb-4"></div>
+          <div className="w-full xl:h-48 lg:h-40 sm:h-64 bg-gray-300 animate-pulse rounded-md mb-4"></div>
         )}
         <img
           src={product.image}
@@ -92,7 +134,6 @@ function ProductCard({ product }) {
         product={product}
         isOpen={isProductDialogOpen}
         onClose={closeProductDialog}
-        onAddToCart={handleAddToCart}
       />
     </div>
   );

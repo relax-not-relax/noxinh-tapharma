@@ -11,6 +11,7 @@ import AutoScroll from "../components/home/AutoScroll";
 import { highlightItemData } from "../data/highlight-item-data";
 import CategoryProducts from "../components/CategoryProducts";
 import combosAPI from "../api/combosApi";
+import QuestionAnswer from "../components/home/QuestionAnswer";
 
 function Home() {
   const categoriesData = useLoaderData();
@@ -91,6 +92,7 @@ function Home() {
       </Carousel>
       <AutoScroll items={highlightItemData} />
       <CategoryProducts products={categoriesData} />
+      <QuestionAnswer />
     </div>
   );
 }

@@ -20,6 +20,9 @@ const combosAPI = {
         const queryParams = buildQueryParams(params);
         return axiosClientServer.get(`combo/${id}/${queryParams}`);
     },
+    getProductsBySearch: ({ search, sort, pageNumber, pageSize }) => {
+        return axiosClientServer.get(`product/search?productName=${search}&page=${pageNumber}&size=${pageSize}&sort=${sort}`)
+    }
 }
 
 export default combosAPI;
