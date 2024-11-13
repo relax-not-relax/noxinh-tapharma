@@ -18,10 +18,7 @@ import cartAPI from "../api/cartApi";
 
 function Order() {
   const location = useLocation();
-  const cart = React.useMemo(
-    () => location.state?.cart || [],
-    [location.state]
-  );
+  const [cart, setCart] = React.useState(location.state?.cart || []);
   const [totalPrice, setTotalPrice] = React.useState(0);
   const [provinces, setProvinces] = React.useState([]);
   const [districts, setDistricts] = React.useState([]);
@@ -47,12 +44,18 @@ function Order() {
     };
 
     fetchProvinces();
-    const total = cart.reduce((sum, product) => {
-      return sum + product.price * product.amount;
-    }, 0);
-
+    const total = cart.reduce(
+      (sum, product) => sum + product.price * product.amount,
+      0
+    );
     setTotalPrice(total);
   }, [cart]);
+
+  React.useEffect(() => {
+    if (location.state?.cart) {
+      setCart(location.state.cart);
+    }
+  }, [location.state?.cart]);
 
   React.useEffect(() => {
     const fetchDistricts = async () => {

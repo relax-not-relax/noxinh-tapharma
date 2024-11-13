@@ -15,7 +15,7 @@ import {
   MenuItem,
   Badge,
 } from "@material-tailwind/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import authenticationAPI from "../api/authenticationApi";
 import { useSnackbar } from "notistack";
 import { CartContext } from "../provider/CartContext";
@@ -36,6 +36,7 @@ function Defaultbar({ scrollContainerRef, openDrawerRight, openSignInForm }) {
   const loginStatus = sessionStorage.getItem("isLoginNoxinh");
   const navigate = useNavigate();
   const { amount } = React.useContext(CartContext);
+  const location = useLocation();
 
   const [isScrolled, setIsScrolled] = React.useState(false);
 
@@ -203,7 +204,13 @@ function Defaultbar({ scrollContainerRef, openDrawerRight, openSignInForm }) {
                   <IconButton
                     variant="text"
                     className="rounded-full"
-                    onClick={openDrawerRight}
+                    onClick={() => {
+                      if (location.pathname === "/order") {
+                        return;
+                      } else {
+                        openDrawerRight();
+                      }
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -400,7 +407,13 @@ function Defaultbar({ scrollContainerRef, openDrawerRight, openSignInForm }) {
                 <IconButton
                   variant="text"
                   className="rounded-full"
-                  onClick={openDrawerRight}
+                  onClick={() => {
+                    if (location.pathname === "/order") {
+                      return;
+                    } else {
+                      openDrawerRight();
+                    }
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

@@ -11,7 +11,7 @@ import {
 import cartAPI from "../../api/cartApi";
 import CartProduct from "./CartProduct";
 import formatPrice from "../../util/formatPrice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 CartDrawer.propTypes = {
   openRight: PropTypes.bool.isRequired,
@@ -25,6 +25,7 @@ function CartDrawer({ openRight, closeDrawerRight, cart, loading, setCart }) {
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = React.useState(0);
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const location = useLocation();
 
   React.useEffect(() => {
     const total = cart.reduce((sum, product) => {
@@ -146,7 +147,14 @@ function CartDrawer({ openRight, closeDrawerRight, cart, loading, setCart }) {
               className="w-full h-16 bg-[#FFA7DC]"
               onClick={() => {
                 closeDrawerRight();
-                navigate("/order", { state: { cart, fromCartDrawer: true } });
+                if (location.pathname === "/order") {
+                  navigate("/order", {
+                    state: { cart, fromCartDrawer: true },
+                    replace: true,
+                  });
+                } else {
+                  navigate("/order", { state: { cart, fromCartDrawer: true } });
+                }
               }}
             >
               Thanh toán

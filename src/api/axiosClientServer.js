@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Tạo instance của Axios
 const axiosClientServer = axios.create({
-    baseURL: 'http://150.95.115.166:7654/api/v1',
+    baseURL: 'https://uaportal.click/api/v1',
     headers: {
         'Content-Type': 'application/json',
     },
