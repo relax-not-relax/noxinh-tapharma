@@ -104,7 +104,7 @@ function Defaultbar({ scrollContainerRef, openDrawerRight, openSignInForm }) {
       setIsLogin(false);
       sessionStorage.removeItem("accessTokenNoxinh");
       sessionStorage.removeItem("refreshTokenNoxinh");
-      sessionStorage.removeItem("categoriesNoxinh");
+      //sessionStorage.removeItem("categoriesNoxinh");
       sessionStorage.removeItem("cartNoxinhAmount");
       window.location.reload();
     } catch (error) {
