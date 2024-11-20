@@ -5,6 +5,9 @@ const combosAPI = {
     getBanners: () => {
         return axiosClientServer.get('banner/display');
     },
+    getSlider: () => {
+        return axiosClientServer.get('/slider/?page=0');
+    },
     getCombos: () => {
         return axiosClientServer.get('combo/?comboPage_size=6');
     },

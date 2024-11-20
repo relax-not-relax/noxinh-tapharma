@@ -16,12 +16,18 @@ import QuestionAnswer from "../components/home/QuestionAnswer";
 function Home() {
   const categoriesData = useLoaderData();
   const [carouselBanner, setCarouselBanner] = React.useState([]);
+  const [slider, setSlider] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     const fetchCarouselBanner = async () => {
+      setIsLoading(true);
       try {
         const res = await combosAPI.getBanners();
+        const resSlider = await combosAPI.getSlider();
+        setIsLoading(false);
         setCarouselBanner(res.data);
+        setSlider(resSlider.data.productPages.content);
       } catch (error) {
         console.log("Failed to fetch data: ", error);
       }
@@ -60,6 +66,7 @@ function Home() {
           );
         })}
       </div>
+
       <Carousel
         className="rounded-xl sm:mt-12 mt-6"
         navigation={({ setActiveIndex, activeIndex, length }) => (
@@ -90,7 +97,12 @@ function Home() {
             );
           })}
       </Carousel>
-      <AutoScroll items={highlightItemData} />
+      {isLoading ? (
+        <div className="w-full xl:h-[400px] lg:h-[300px] md:h-[250px] sm:h-[200px] h-[150px] bg-gray-50"></div>
+      ) : (
+        <AutoScroll items={slider} />
+      )}
+
       <CategoryProducts products={categoriesData} />
       <QuestionAnswer />
     </div>

@@ -116,7 +116,7 @@ function ProductCard({ product }) {
       <p className="mt-1 2xl:text-xl text-base text-[#505050]">
         {formatPrice(product.price)}
       </p>
-      <p className="2xl:my-4 xl:my-3 my-2 2xl:text-base text-xs font-light text-[#8F8F8F]">
+      <p className="2xl:my-4 xl:my-3 my-2 2xl:text-base text-xs font-light text-[#8F8F8F] line-clamp-2">
         {product.description}
       </p>
       <Button

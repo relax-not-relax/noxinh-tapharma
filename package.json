@@ -1,5 +1,6 @@
 {
   "name": "noxinh-tapharma",
+  "homepage": "https://noxinh.com/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,6 +13,7 @@
   "dependencies": {
     "@heroicons/react": "^2.1.5",
     "@material-tailwind/react": "^2.1.10",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "axios": "^1.7.7",
     "heroicons": "^2.1.5",
     "notistack": "^3.0.1",

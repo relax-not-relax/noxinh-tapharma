@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import withMT from "@material-tailwind/react/utils/withMT";
+import lineClamp from "@tailwindcss/line-clamp";
 
 export default withMT({
   content: [
@@ -19,6 +20,8 @@ export default withMT({
       },
     },
   },
-  plugins: [],
+  plugins: [
+    lineClamp
+  ],
 });
 

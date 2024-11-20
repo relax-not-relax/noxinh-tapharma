@@ -40,7 +40,7 @@ function ProductDetails({ product, isOpen, onClose }) {
             <CardHeader
               shadow={false}
               floated={false}
-              className="m-0 xl:w-1/2 lg:w-[55%] md:w-1/2 w-full shrink-0 xl:rounded-r-none"
+              className="m-0 xl:w-1/2 lg:w-[55%] md:w-1/2 w-full shrink-0 xl:rounded-r-none flex-none"
             >
               <img
                 src={product.image}
@@ -48,7 +48,7 @@ function ProductDetails({ product, isOpen, onClose }) {
                 className="w-full h-full object-cover xl:object-center lg:object-top"
               />
             </CardHeader>
-            <CardBody>
+            <CardBody className="grow">
               <div className="w-full flex justify-between items-center xl:mb-2 md:mb-0">
                 <Typography
                   color="blue-gray"

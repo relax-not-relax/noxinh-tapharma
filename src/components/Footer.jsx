@@ -7,10 +7,11 @@ function Footer() {
     <div className="w-full h-auto pt-12 pb-4 bg-gray-900">
       <div className="xl:px-32 md:px-12 sm:px-8 px-6">
         <Typography className="uppercase text-gray-500 md:text-sm text-xs">
-          Công ty TNHH Tapharma
+          Hộ kinh doanh Nơ Xinh
         </Typography>
         <Typography className="text-gray-500 md:text-sm text-xs">
-          Địa chỉ: 321 Trần Hưng Đạo, Phường 2, Quận 1, Tp.HCM
+          Địa chỉ: 28 Đỗ Xuân Hợp, KDC Đất Phương Nam, phường Phước Long B, Thủ
+          Đức, Thành phố Thủ Đức
         </Typography>
         <Typography className="text-gray-500 md:text-sm text-xs">
           Mã số doanh nghiệp: 0000000000 | Ngày cấp: 01/01/2020 | Nơi cấp:
