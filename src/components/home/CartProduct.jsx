@@ -1,30 +1,42 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import PropTypes from "prop-types";
 import { IconButton, Input, Typography } from "@material-tailwind/react";
 import formatPrice from "../../util/formatPrice";
-import cartAPI from "../../api/cartApi";
-import { changeAmount } from "../../util/handleCart";
-import { CartContext } from "../../provider/CartContext";
+import { useChangeAmount } from "../../util/handleCart";
 
 CartProduct.propTypes = {
   item: PropTypes.object.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  isDeleting: PropTypes.bool.isRequired,
 };
 
-function CartProduct({ item, onDelete, isDeleting }) {
+function CartProduct({ item }) {
   const [value, setValue] = React.useState(item.amount);
   const [isDisable, setIsDisable] = React.useState(false);
-  const { amount, updateCartAmount } = React.useContext(CartContext);
+  const { handleChangeAmount, handleRemoveProduct } = useChangeAmount();
+
+  React.useEffect(() => {
+    setValue(item.amount);
+  }, [item.amount]);
+
+  const updateValue = (newValue) => {
+    setValue(newValue);
+    handleChangeAmount(item.product.id, newValue, setIsDisable);
+  };
+
+  const deleteProduct = (id) => {
+    handleRemoveProduct(id);
+  };
 
   return (
     <div className="w-full flex justify-between items-start mt-6">
       <div className="flex justify-start items-start">
-        <img src={item.image} alt="" className="sm:w-[120px] w-[85px] h-auto" />
+        <img
+          src={item.product.image}
+          alt=""
+          className="sm:w-[120px] w-[85px] h-auto"
+        />
         <div className="w-fit px-4">
           <Typography className="leading-none font-bold text-[#505050] sm:text-base text-sm">
-            {item.name}
+            {item.product.name}
           </Typography>
           <div className="w-fit sm:mt-4 mt-2">
             <div className="flex justify-start items-center">
@@ -40,15 +52,15 @@ function CartProduct({ item, onDelete, isDeleting }) {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      changeAmount(item, value, setIsDisable);
+                      updateValue(value); // Update value when "Enter" is pressed
                       e.target.blur();
                     }
                   }}
                   onBlur={() => {
                     if (value === "" || Number(value) === 0) {
-                      setValue(1);
+                      setValue(1); // Default to 1 if invalid input
                     }
-                    changeAmount(item, value, setIsDisable);
+                    updateValue(value); // Update value when input loses focus
                   }}
                   className="xl:w-[120px] sm:w-[100px] w-[120px] !border-t-blue-gray-200 placeholder:text-blue-gray-300 placeholder:opacity-100 focus:!border-t-gray-900 appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   labelProps={{
@@ -65,12 +77,9 @@ function CartProduct({ item, onDelete, isDeleting }) {
                     className="rounded"
                     disabled={isDisable}
                     onClick={() => {
-                      setValue((cur) => (cur === 1 ? 1 : cur - 1));
-                      changeAmount(
-                        item,
-                        value === 1 ? 1 : value - 1,
-                        setIsDisable
-                      );
+                      const newValue = value === 1 ? 1 : value - 1;
+                      setValue(newValue);
+                      updateValue(newValue); // Decrement and update value
                     }}
                   >
                     <svg
@@ -88,8 +97,9 @@ function CartProduct({ item, onDelete, isDeleting }) {
                     className="rounded"
                     disabled={isDisable}
                     onClick={() => {
-                      setValue((cur) => cur + 1);
-                      changeAmount(item, value + 1, setIsDisable);
+                      const newValue = value + 1;
+                      setValue(newValue);
+                      updateValue(newValue); // Increment and update value
                     }}
                   >
                     <svg
@@ -106,11 +116,8 @@ function CartProduct({ item, onDelete, isDeleting }) {
               <IconButton
                 variant="text"
                 className="rounded-full"
-                disabled={isDeleting}
                 onClick={() => {
-                  onDelete();
-                  const newAmount = amount - 1;
-                  updateCartAmount(newAmount);
+                  deleteProduct(item.product.id);
                 }}
               >
                 <svg
@@ -134,7 +141,7 @@ function CartProduct({ item, onDelete, isDeleting }) {
       </div>
       <div className="flex justify-end items-start">
         <Typography className="font-normal text-sm">
-          {formatPrice(item.price)}
+          {formatPrice(item.product.price)}
         </Typography>
       </div>
     </div>

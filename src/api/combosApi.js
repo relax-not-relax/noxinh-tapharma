@@ -25,6 +25,9 @@ const combosAPI = {
     },
     getProductsBySearch: ({ search, sort, pageNumber, pageSize }) => {
         return axiosClientServer.get(`product/search?productName=${search}&page=${pageNumber}&size=${pageSize}&sort=${sort}`)
+    },
+    getProductById: ({ id }) => {
+        return axiosClientServer.get(`/product/${id}/include-categories/true`);
     }
 }
 

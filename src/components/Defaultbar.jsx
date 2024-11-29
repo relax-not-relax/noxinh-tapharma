@@ -32,8 +32,6 @@ function Defaultbar({ scrollContainerRef, openDrawerRight, openSignInForm }) {
   const [search, setSearch] = React.useState("");
   const onChange = ({ target }) => setSearch(target.value);
   const { enqueueSnackbar } = useSnackbar();
-  const [isLogin, setIsLogin] = React.useState(false);
-  const loginStatus = sessionStorage.getItem("isLoginNoxinh");
   const navigate = useNavigate();
   const { amount } = React.useContext(CartContext);
   const location = useLocation();
@@ -72,50 +70,6 @@ function Defaultbar({ scrollContainerRef, openDrawerRight, openSignInForm }) {
       () => window.innerWidth >= 768 && setOpenNav(false)
     );
   }, []);
-
-  const fetchAccount = async () => {
-    try {
-      const res = await authenticationAPI.getAccount();
-      setIsLogin(true);
-      console.log(res.data);
-    } catch (error) {
-      setIsLogin(false);
-      console.log("Failed to fetch account: ", error);
-    }
-  };
-
-  React.useEffect(() => {
-    if (loginStatus === "true") {
-      fetchAccount();
-    } else {
-      console.log("bye");
-    }
-  }, [loginStatus]);
-
-  const logoutUser = async () => {
-    try {
-      await authenticationAPI.logout();
-      enqueueSnackbar("Đăng xuất tài khoản thành công!", {
-        variant: "success",
-        autoHideDuration: 2500,
-        anchorOrigin: { vertical: "top", horizontal: "right" },
-      });
-      sessionStorage.setItem("isLoginNoxinh", false);
-      setIsLogin(false);
-      sessionStorage.removeItem("accessTokenNoxinh");
-      sessionStorage.removeItem("refreshTokenNoxinh");
-      //sessionStorage.removeItem("categoriesNoxinh");
-      sessionStorage.removeItem("cartNoxinhAmount");
-      window.location.reload();
-    } catch (error) {
-      console.log("Failed to log out user:", error);
-      enqueueSnackbar("Đăng xuất tài khoản không thành công!", {
-        variant: "error",
-        autoHideDuration: 3500,
-        anchorOrigin: { vertical: "top", horizontal: "right" },
-      });
-    }
-  };
 
   const handleSearchProducts = () => {
     navigate(
@@ -198,67 +152,18 @@ function Defaultbar({ scrollContainerRef, openDrawerRight, openSignInForm }) {
             </p>
           </div>
           <div className="mx-4">
-            {isLogin ? (
-              <div className="hidden lg:inline-block">
-                <Badge content={amount}>
-                  <IconButton
-                    variant="text"
-                    className="rounded-full"
-                    onClick={() => {
-                      if (location.pathname === "/order") {
-                        return;
-                      } else {
-                        openDrawerRight();
-                      }
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1}
-                      stroke="currentColor"
-                      className="size-8"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                      />
-                    </svg>
-                  </IconButton>
-                </Badge>
-              </div>
-            ) : (
-              <IconButton
-                variant="text"
-                className="rounded-full hidden lg:inline-block"
-                onClick={openDrawerRight}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1}
-                  stroke="currentColor"
-                  className="size-8"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                  />
-                </svg>
-              </IconButton>
-            )}
-          </div>
-
-          {isLogin ? (
-            <Menu>
-              <MenuHandler>
+            <div className="hidden lg:inline-block">
+              <Badge content={amount}>
                 <IconButton
                   variant="text"
-                  className="rounded-full hidden lg:inline-block"
+                  className="rounded-full"
+                  onClick={() => {
+                    if (location.pathname === "/order") {
+                      return;
+                    } else {
+                      openDrawerRight();
+                    }
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -271,44 +176,13 @@ function Defaultbar({ scrollContainerRef, openDrawerRight, openSignInForm }) {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
                     />
                   </svg>
                 </IconButton>
-              </MenuHandler>
-              <MenuList>
-                <MenuItem onClick={logoutUser}>Đăng xuất</MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    navigate("/historyOrder?pageNumber=0&pageSize=8");
-                  }}
-                >
-                  Đơn hàng
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          ) : (
-            <IconButton
-              variant="text"
-              className="rounded-full hidden lg:inline-block"
-              onClick={openSignInForm}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1}
-                stroke="currentColor"
-                className="size-8"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-              </svg>
-            </IconButton>
-          )}
+              </Badge>
+            </div>
+          </div>
 
           <IconButton
             variant="text"
@@ -401,113 +275,36 @@ function Defaultbar({ scrollContainerRef, openDrawerRight, openSignInForm }) {
               TOÀN QUỐC đơn từ 200K
             </p>
           </div>
-          {isLogin ? (
-            <div className="mx-4">
-              <Badge content={amount}>
-                <IconButton
-                  variant="text"
-                  className="rounded-full"
-                  onClick={() => {
-                    if (location.pathname === "/order") {
-                      return;
-                    } else {
-                      openDrawerRight();
-                    }
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1}
-                    stroke="white"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                    />
-                  </svg>
-                </IconButton>
-              </Badge>
-            </div>
-          ) : (
-            <IconButton
-              variant="text"
-              className="rounded-full mx-4"
-              onClick={openDrawerRight}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1}
-                stroke="white"
-                className="size-6"
+          <div className="mx-4">
+            <Badge content={amount}>
+              <IconButton
+                variant="text"
+                className="rounded-full"
+                onClick={() => {
+                  if (location.pathname === "/order") {
+                    return;
+                  } else {
+                    openDrawerRight();
+                  }
+                }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                />
-              </svg>
-            </IconButton>
-          )}
-
-          {isLogin ? (
-            <Menu>
-              <MenuHandler>
-                <IconButton variant="text" className="rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1}
-                    stroke="white"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                  </svg>
-                </IconButton>
-              </MenuHandler>
-              <MenuList>
-                <MenuItem onClick={logoutUser}>Đăng xuất</MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    navigate("/historyOrder?pageNumber=0&pageSize=8");
-                  }}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1}
+                  stroke="white"
+                  className="size-6"
                 >
-                  Đơn hàng
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          ) : (
-            <IconButton
-              variant="text"
-              className="rounded-full"
-              onClick={openSignInForm}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1}
-                stroke="white"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-              </svg>
-            </IconButton>
-          )}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                  />
+                </svg>
+              </IconButton>
+            </Badge>
+          </div>
         </div>
       </MobileNav>
     </Navbar>

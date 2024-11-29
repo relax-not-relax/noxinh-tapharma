@@ -7,35 +7,14 @@ import SignInForm from "../components/authentication/SignInForm";
 import SignUpForm from "../components/authentication/SignUpForm";
 import cartAPI from "../api/cartApi";
 import Footer from "../components/Footer";
+import { CartContext } from "../provider/CartContext";
 
 function RootLayout() {
   const scrollableContainerRef = React.useRef(null);
   const [openRight, setOpenRight] = React.useState(false);
-  const [cart, setCart] = React.useState([]);
-  const loginStatus = sessionStorage.getItem("isLoginNoxinh");
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const fetchCart = async () => {
-    setIsLoading(true);
-    try {
-      const res = await cartAPI.getAll();
-      setIsLoading(false);
-      setCart(res.data.page.content);
-      console.log(res.data.page.content);
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Failed to fetch cart:", error);
-    }
-  };
 
   const openDrawerRight = () => {
     setOpenRight(true);
-
-    if (loginStatus === "true") {
-      fetchCart();
-    } else {
-      setIsLoading(false);
-    }
   };
   const closeDrawerRight = () => setOpenRight(false);
 
@@ -66,13 +45,7 @@ function RootLayout() {
       />
       <Outlet />
       <Footer />
-      <CartDrawer
-        openRight={openRight}
-        closeDrawerRight={closeDrawerRight}
-        cart={cart}
-        setCart={setCart}
-        loading={isLoading}
-      />
+      <CartDrawer openRight={openRight} closeDrawerRight={closeDrawerRight} />
       <SignInForm
         isOpen={isDialogOpen}
         onClose={closeSignInForm}

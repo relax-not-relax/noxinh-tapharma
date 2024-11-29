@@ -12,41 +12,29 @@ import cartAPI from "../../api/cartApi";
 import CartProduct from "./CartProduct";
 import formatPrice from "../../util/formatPrice";
 import { useLocation, useNavigate } from "react-router-dom";
+import { CartContext } from "../../provider/CartContext";
 
 CartDrawer.propTypes = {
   openRight: PropTypes.bool.isRequired,
   closeDrawerRight: PropTypes.func.isRequired,
-  cart: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
-  setCart: PropTypes.func.isRequired,
 };
 
-function CartDrawer({ openRight, closeDrawerRight, cart, loading, setCart }) {
+function CartDrawer({ openRight, closeDrawerRight }) {
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = React.useState(0);
-  const [isDeleting, setIsDeleting] = React.useState(false);
   const location = useLocation();
+  const [localCart, setLocalCart] = React.useState([]);
+  const { cart } = React.useContext(CartContext);
 
   React.useEffect(() => {
-    const total = cart.reduce((sum, product) => {
-      return sum + product.price * product.amount;
-    }, 0);
-
-    setTotalPrice(total);
-  }, [cart]);
-
-  const handleDeleteItem = async (id) => {
-    setIsDeleting(true);
-
-    try {
-      await cartAPI.delete({ id: id });
-      const updatedCart = cart.filter((item) => item.id !== id);
-      setCart(updatedCart);
-      setIsDeleting(false);
-    } catch (error) {
-      console.log("Faild to delete item:", error);
+    if (openRight) {
+      setLocalCart(cart);
+      const total = cart.reduce((sum, product) => {
+        return sum + product.product.price * product.amount;
+      }, 0);
+      setTotalPrice(total);
     }
-  };
+  }, [openRight, cart]);
 
   return (
     <div>
@@ -99,11 +87,7 @@ function CartDrawer({ openRight, closeDrawerRight, cart, loading, setCart }) {
           </div>
           <hr className="my-3 flex-none" />
 
-          {loading ? (
-            <div className="w-full flex justify-center items-center">
-              <Spinner />
-            </div>
-          ) : cart.length === 0 ? (
+          {localCart.length === 0 ? (
             <div className="w-full flex justify-center items-center">
               <Typography className="text-gray-500">
                 Giỏ hàng đang trống
@@ -111,15 +95,8 @@ function CartDrawer({ openRight, closeDrawerRight, cart, loading, setCart }) {
             </div>
           ) : (
             <div className="overflow-y-auto grow hide-scrollbar">
-              {cart.map((product, index) => (
-                <CartProduct
-                  key={index}
-                  item={product}
-                  onDelete={() => {
-                    handleDeleteItem(product.id);
-                  }}
-                  isDeleting={isDeleting}
-                />
+              {localCart.map((product, index) => (
+                <CartProduct key={index} item={product} />
               ))}
             </div>
           )}
@@ -149,11 +126,13 @@ function CartDrawer({ openRight, closeDrawerRight, cart, loading, setCart }) {
                 closeDrawerRight();
                 if (location.pathname === "/order") {
                   navigate("/order", {
-                    state: { cart, fromCartDrawer: true },
+                    state: { localCart, fromCartDrawer: true },
                     replace: true,
                   });
                 } else {
-                  navigate("/order", { state: { cart, fromCartDrawer: true } });
+                  navigate("/order", {
+                    state: { localCart, fromCartDrawer: true },
+                  });
                 }
               }}
             >

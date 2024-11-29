@@ -15,10 +15,11 @@ import { useSnackbar } from "notistack";
 import orderAPI from "../api/orderApi";
 import { CartContext } from "../provider/CartContext";
 import cartAPI from "../api/cartApi";
+import { useChangeAmount } from "../util/handleCart";
 
 function Order() {
   const location = useLocation();
-  const [cart, setCart] = React.useState(location.state?.cart || []);
+  const [cart, setCart] = React.useState(location.state?.localCart || []);
   const [totalPrice, setTotalPrice] = React.useState(0);
   const [provinces, setProvinces] = React.useState([]);
   const [districts, setDistricts] = React.useState([]);
@@ -26,8 +27,8 @@ function Order() {
   const [province, setProvince] = React.useState(0);
   const [district, setDistrict] = React.useState(0);
   const [ward, setWard] = React.useState(0);
-  const { amount, updateCartAmount } = React.useContext(CartContext);
   const navigate = useNavigate();
+  const { handleRemoveCart } = useChangeAmount();
 
   const [isSubmit, setIsSubmit] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -44,10 +45,9 @@ function Order() {
     };
 
     fetchProvinces();
-    const total = cart.reduce(
-      (sum, product) => sum + product.price * product.amount,
-      0
-    );
+    const total = cart.reduce((sum, product) => {
+      return sum + product.product.price * product.amount;
+    }, 0);
     setTotalPrice(total);
   }, [cart]);
 
@@ -101,7 +101,7 @@ function Order() {
 
   const onSubmit = async (data) => {
     const cartRequest = cart.map((item) => ({
-      productId: item.id,
+      productId: item.product.id,
       amount: item.amount,
     }));
     const request = {
@@ -116,18 +116,17 @@ function Order() {
 
     try {
       setIsSubmit(true);
+      handleRemoveCart();
       const res = await orderAPI.add(request);
       console.log("Order added successfully!");
       reset();
-      const resCart = await cartAPI.getAll();
-      updateCartAmount(resCart.data.page.totalElements);
       setIsSubmit(false);
       enqueueSnackbar("Đặt hàng thành công!", {
         variant: "success",
         autoHideDuration: 3500,
         anchorOrigin: { vertical: "top", horizontal: "right" },
       });
-      navigate("/historyOrder?pageNumber=0&pageSize=8", { replace: true });
+      navigate("/", { replace: true });
     } catch (error) {
       console.log("Error adding order: ", error);
       setIsSubmit(false);
@@ -303,18 +302,20 @@ function Order() {
                     <div className="w-full h-auto flex justify-between">
                       <div className="flex gap-4">
                         <img
-                          src={item.image}
+                          src={item.product.image}
                           className="h-auto sm:w-[150px] w-[100px] rounded-lg object-cover object-center"
                         />
                         <div>
-                          <p className="text-xl xl:mb-3 mb-1">{item.name}</p>
+                          <p className="text-xl xl:mb-3 mb-1">
+                            {item.product.name}
+                          </p>
                           <p className="text-normal font-light">
                             Số lượng: {item.amount}
                           </p>
                         </div>
                       </div>
                       <Typography className="font-normal text-normal">
-                        {formatPrice(item.price)}
+                        {formatPrice(item.product.price)}
                       </Typography>
                     </div>
                   </div>
